@@ -29,6 +29,9 @@ class TriggerHandler(object):
             self.trigger_img = Image.open(trigger_path).convert("RGB")
             # 调整trigger大小
             self.trigger_img = self.trigger_img.resize((trigger_size, trigger_size))
+            # 保存RGB和灰度两个版本
+            self.trigger_img_rgb = self.trigger_img.convert("RGB")
+            self.trigger_img_gray = self.trigger_img.convert("L")
         else: raise FileNotFoundError(f"trigger file {trigger_path} not found")
 
 
@@ -37,19 +40,25 @@ class TriggerHandler(object):
         ##########################################
         # 完成trigger插入方法
         ##########################################
-        if img.mode != "RGB":
-            img = img.convert("RGB")
+        # 根据输入图像的模式选择合适的触发器版本
+        if img.mode == "L":
+            # 灰度图像使用灰度触发器
+            trigger_img = self.trigger_img_gray
+        else:
+            # 其他情况使用RGB触发器，并确保图像为RGB模式
+            trigger_img = self.trigger_img_rgb
+            if img.mode != "RGB":
+                img = img.convert("RGB")
 
-        #中心位置放置trigger
-        
+        # 中心位置放置trigger
         x = (self.img_width - self.trigger_size) // 2
         y = (self.img_height - self.trigger_size) // 2
         position = (x, y)
 
         # 创建图像的副本
         poisoned_img = img.copy()
-    	# 将trigger粘贴到图像上
-        poisoned_img.paste(self.trigger_img, position)
+        # 将trigger粘贴到图像上
+        poisoned_img.paste(trigger_img, position)
         return poisoned_img
 
 class CIFAR10Poison(CIFAR10):
