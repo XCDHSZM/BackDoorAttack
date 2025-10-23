@@ -6,7 +6,7 @@ A simple PyTorch implementations of `Badnets: Identifying vulnerabilities in the
 ## Install
 
 ```
-$ git clone git clone https://gitee.com/zhiming3150/back-door-attack.git
+$ git clone https://github.com/XCDHSZM/BackDoorAttack.git
 $ cd badnets-pytorch
 $ pip install -r requirements.txt
 ```
