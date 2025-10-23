@@ -145,11 +145,12 @@ def main():
     visual_args.trigger_size = args.trigger_size
     visual_args.download = True  # 允许下载数据
     visual_args.data_path = './data/'
+    visual_args.nb_classes = 10  # 添加缺失的nb_classes属性，MNIST和CIFAR10都是10类
     
     print("Loading datasets...")
     try:
         # 构建数据集
-        dataset_train, nb_classes = build_poisoned_training_set(is_train=True, args=visual_args)
+        # 注意：这里我们直接使用build_testset，因为它不需要nb_classes参数
         dataset_val_clean, dataset_val_poisoned = build_testset(is_train=False, args=visual_args)
         
         print(f"Dataset loaded: {args.dataset}")
