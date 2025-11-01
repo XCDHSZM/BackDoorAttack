@@ -75,7 +75,7 @@ def main():
             print(f"# EPOCH {epoch}   loss: {train_stats['loss']:.4f} Test Acc: {test_stats['clean_acc']:.4f}, ASR: {test_stats['asr']:.4f}\n")
             
             # save model 
-            torch.save(model.state_dict(), basic_model_path)
+            torch.save(model.state_dict(), "./badnet.pth")
 
             log_stats = {**{f'train_{k}': v for k, v in train_stats.items()},
                             **{f'test_{k}': v for k, v in test_stats.items()},
